@@ -1,0 +1,47 @@
+{
+  "name": "arith",
+  "scopeName": "source.arith",
+  "fileTypes": [
+    ".arith"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "name": "keyword.control.arith",
+      "match": "\\b(def|module)\\b"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.arith",
+          "begin": "/\\*",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.arith"
+            }
+          },
+          "end": "\\*/",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.arith"
+            }
+          }
+        },
+        {
+          "begin": "//",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.whitespace.comment.leading.arith"
+            }
+          },
+          "end": "(?=$)",
+          "name": "comment.line.arith"
+        }
+      ]
+    }
+  }
+}

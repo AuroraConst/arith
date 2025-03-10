@@ -1,0 +1,12 @@
+{
+    "projectName": "Arith",
+    "languages": [{
+        "id": "arith",
+        "grammar": "src/language/arith.langium",
+        "fileExtensions": [".arith"],
+        "textMate": {
+            "out": "syntaxes/arith.tmLanguage.json"
+        }
+    }],
+    "out": "src/language/generated"
+}
