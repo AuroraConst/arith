@@ -8,7 +8,7 @@
         "src"
     ],
     "exports": {
-        "./out/cli/cli-utils": "./out/cli/cli-utils.js",
+        "./out/cli/cli-util": "./out/cli/cli-util.js",
         "./out/cli/interpreter": "./out/cli/interpreter.js",
         "./out/language/arith-evaluator": "./out/language/arith-evaluator.js"
     },
