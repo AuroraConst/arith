@@ -10,7 +10,8 @@
     "exports": {
         "./out/cli/cli-util": "./out/cli/cli-util.js",
         "./out/cli/interpreter": "./out/cli/interpreter.js",
-        "./out/language/arith-evaluator": "./out/language/arith-evaluator.js"
+        "./out/language/arith-evaluator": "./out/language/arith-evaluator.js",
+        "./out/language/generated/ast": "./out/language/generated/ast.js"
     },
     "type": "module",
     "scripts": {
