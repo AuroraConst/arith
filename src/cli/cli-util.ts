@@ -1,8 +1,19 @@
 import type { AstNode, LangiumCoreServices, LangiumDocument } from 'langium';
+import {createArithServices} from '../language/arith-module.js';
+import {Module} from '../language/generated/ast.js';
+import { NodeFileSystem } from 'langium/node';
 import chalk from 'chalk';
 import * as path from 'node:path';
 import * as fs from 'node:fs';
 import { URI } from 'langium';
+
+export const parse = async (fileName: string): Promise<Module> => {
+    const services = createArithServices(NodeFileSystem).Arith;
+    const module = await extractAstNode<Module>(fileName, services);
+
+    return module;
+};
+
 
 export async function extractDocument(fileName: string, services: LangiumCoreServices): Promise<LangiumDocument> {
     const extensions = services.LanguageMetaData.fileExtensions;
