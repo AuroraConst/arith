@@ -1,7 +1,7 @@
 {
     "name": "arith",
     "description": "Please enter a brief description here",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "files": [
         "bin",
         "out",
@@ -11,6 +11,7 @@
         "./out/cli/cli-util": "./out/cli/cli-util.js",
         "./out/cli/interpreter": "./out/cli/interpreter.js",
         "./out/language/arith-evaluator": "./out/language/arith-evaluator.js",
+        "./out/language/arith-util": "./out/language/arith-util.js",
         "./out/language/generated/ast": "./out/language/generated/ast.js"
     },
     "type": "module",

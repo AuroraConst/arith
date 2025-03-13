@@ -4,6 +4,11 @@
  * terms of the MIT License, which is available in the project root.
  ******************************************************************************/
 
+/**makes thes utils usable from ScalablyTyped perspective */
+import { CstUtils,AstUtils} from 'langium'
+export {CstUtils,AstUtils}
+
+
 import type { ResolvedReference } from 'langium';
 import { isDefinition, type BinaryExpression, type Definition, type FunctionCall } from './generated/ast.js';
 
