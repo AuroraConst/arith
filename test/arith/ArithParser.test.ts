@@ -6,6 +6,8 @@ import { isBinaryExpression, BinaryExpression, NumberLiteral } from '../../src/l
 
 import fs from 'fs';
 import path from 'path';
+import {Module} from "langium";
+import {parse, UrlWithStringQuery} from "node:url";
 
 test('ArithParserTest: binaryexpressions file works', async () => {
     
@@ -18,7 +20,23 @@ test('ArithParserTest: binaryexpressions file works', async () => {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     console.log(fileContent, "\n", filePath);
 
-    // const document = services.shared.workspace.LangiumDocumentFactory.fromString(fileContent, URI.file(filePath));
+
+    // Assuming parse returns a Promise and testFiles is an array of file paths
+    async function getAst(): Promise<UrlWithStringQuery> {
+        try {
+            const ast = parse('./resources/math1.arith');
+            console.log(ast)
+            return ast;
+
+        } catch (e) {
+            console.info(`error: ${e}`);
+            throw e; // rethrow the error, similar to Future.failed(e)
+        }
+    }
+
+// Later, in an async context:
+    await getAst();
+// const document = services.shared.workspace.LangiumDocumentFactory.fromString(fileContent, URI.file(filePath));
     // await services.shared.workspace.DocumentBuilder.build([document], { validation: true });
 
     // const module = document.parseResult.value;
