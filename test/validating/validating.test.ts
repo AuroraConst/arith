@@ -1,22 +1,22 @@
-import { beforeAll, describe, expect, test } from "vitest";
-import { EmptyFileSystem, type LangiumDocument } from "langium";
-import { expandToString as s } from "langium/generate";
-import { parseHelper } from "langium/test";
-import type { Diagnostic } from "vscode-languageserver-types";
-import { createArithServices } from "../../src/language/arith-module.js";
-import { Module, isModule } from "../../src/language/generated/ast.js";
+// import { beforeAll, describe, expect, test } from "vitest";
+// import { EmptyFileSystem, type LangiumDocument } from "langium";
+// import { expandToString as s } from "langium/generate";
+// import { parseHelper } from "langium/test";
+// import type { Diagnostic } from "vscode-languageserver-types";
+// import { createArithServices } from "../../src/language/arith-module.js";
+// import { Module, isModule } from "../../src/language/generated/ast.js";
 
-let services: ReturnType<typeof createArithServices>;
-let parse:    ReturnType<typeof parseHelper<Module>>;
-let document: LangiumDocument<Module> | undefined;
+// let services: ReturnType<typeof createArithServices>;
+// let parse:    ReturnType<typeof parseHelper<Module>>;
+// let document: LangiumDocument<Module> | undefined;
 
-beforeAll(async () => {
+// beforeAll(async () => {
     // services = createArithServices(EmptyFileSystem);
     // const doParse = parseHelper<Module>(input, { validation: true });
 
     // activate the following if your linking test requires elements from a built-in library, for example
     // await services.shared.workspace.WorkspaceManager.initializeWorkspace([]);
-});
+// });
 
 // describe('Validating', () => {
   

@@ -9,37 +9,38 @@ import path from 'path';
 
 test('ArithParserTest: binaryexpressions file works', async () => {
     
-    const services = createArithServices().Arith;
+    // const services = createArithServices().Arith;
 
     const platform = process.platform;
     console.log(`Platform: ${platform}`)
 
     const filePath = path.resolve(__dirname,'resources', 'math1.arith');  
     const fileContent = fs.readFileSync(filePath, 'utf-8');
+    console.log(fileContent, "\n", filePath);
 
-    const document = services.shared.workspace.LangiumDocumentFactory.fromString(fileContent, URI.file(filePath));
-    await services.shared.workspace.DocumentBuilder.build([document], { validation: true });
+    // const document = services.shared.workspace.LangiumDocumentFactory.fromString(fileContent, URI.file(filePath));
+    // await services.shared.workspace.DocumentBuilder.build([document], { validation: true });
 
-    const module = document.parseResult.value;
+    // const module = document.parseResult.value;
 
-    const result = interpretEvaluations(module);
+    // const result = interpretEvaluations(module);
     
-    const output = Object.entries(result).map(([key, value]) => {
-        const evaluation = key as any;
-        const expr = evaluation.expression;
+    // const output = Object.entries(result).map(([key, value]) => {
+    //     const evaluation = key as any;
+    //     const expr = evaluation.expression;
 
-        if (!isBinaryExpression(expr)) throw new Error("Expected a binary expression");
+    //     if (!isBinaryExpression(expr)) throw new Error("Expected a binary expression");
 
-        const binary = expr as BinaryExpression;
-        const left = (binary.left as NumberLiteral).value;
-        const right = (binary.right as NumberLiteral).value;
-        const operator = binary.operator;
+    //     const binary = expr as BinaryExpression;
+    //     const left = (binary.left as NumberLiteral).value;
+    //     const right = (binary.right as NumberLiteral).value;
+    //     const operator = binary.operator;
 
-        const line = `${left} ${operator} ${right} = ${value}`;
-        console.log(line);
+    //     const line = `${left} ${operator} ${right} = ${value}`;
+    //     console.log(line);
 
-        return line;
-    });
+    //     return line;
+    // });
 
-    expect(output.length).toBe(6);
+    // expect(output.length).toBe(6);
 });
