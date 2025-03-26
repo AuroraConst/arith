@@ -2,63 +2,75 @@ import { expect, test } from 'vitest';
 import { URI } from 'vscode-uri';
 import { createArithServices } from '../../src/language/arith-module.js';
 import { interpretEvaluations } from '../../src/language/arith-evaluator.js';
-import { isBinaryExpression, BinaryExpression, NumberLiteral } from '../../src/language/generated/ast.js';
-
+import { isBinaryExpression, BinaryExpression, NumberLiteral, Module, Evaluation } from '../../src/language/generated/ast.js';
 import fs from 'fs';
 import path from 'path';
-import {Module} from "langium";
-import {parse, UrlWithStringQuery} from "node:url";
+import { parse } from '../../out/cli/cli-util.js';
+import { fileURLToPath } from 'url';
+
+// Convert import.meta.url to __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+interface TestBinaryExpression {
+    isBinary: boolean;
+    left: number;
+    right: number;
+    operator: string;
+    value: number;
+}
 
 test('ArithParserTest: binaryexpressions file works', async () => {
-    
-    // const services = createArithServices().Arith;
+    try {
+        const filePath = path.resolve(__dirname, 'resources', 'math1.arith');
+        const fileContent = fs.readFileSync(filePath, 'utf-8');
 
-    const platform = process.platform;
-    console.log(`Platform: ${platform}`)
+        // Parse the AST
+        const module = await parse(filePath) as Module;
 
-    const filePath = path.resolve(__dirname,'resources', 'math1.arith');  
-    const fileContent = fs.readFileSync(filePath, 'utf-8');
-    console.log(fileContent, "\n", filePath);
+        // Interpret evaluations
+        const results = interpretEvaluations(module);
 
+        // Process results
+        const testCases: TestBinaryExpression[] = [];
 
-    // Assuming parse returns a Promise and testFiles is an array of file paths
-    async function getAst(): Promise<UrlWithStringQuery> {
-        try {
-            const ast = parse('./resources/math1.arith');
-            console.log(ast)
-            return ast;
+        results.forEach((value, key: Evaluation) => {
+            const expr = key.expression;
+            if (isBinaryExpression(expr)) {
+                const left = (expr.left as NumberLiteral).value;
+                const right = (expr.right as NumberLiteral).value;
+                testCases.push({
+                    isBinary: true,
+                    left: Number(left),
+                    right: Number(right),
+                    operator: expr.operator,
+                    value: Number(value)
+                });
+            }
+        });
 
-        } catch (e) {
-            console.info(`error: ${e}`);
-            throw e; // rethrow the error, similar to Future.failed(e)
-        }
+        // Log results for verification
+        console.log('Test cases:');
+        testCases.forEach(tc => {
+            console.log(`${tc.left} ${tc.operator} ${tc.right} = ${tc.value}`);
+        });
+
+        // Assertions
+        expect(module.name).toBe('binaryexpressions');
+        expect(testCases.length).toBe(6);
+
+        // Verify specific operations if needed
+        expect(testCases).toEqual(expect.arrayContaining([
+            expect.objectContaining({ operator: '*', left: 3, right: 6, value: 18 }),
+            expect.objectContaining({ operator: '+', left: 5, right: 2, value: 7 }),
+            expect.objectContaining({ operator: '/', left: 6, right: 4, value: 1.5 }),
+            expect.objectContaining({ operator: '-', left: 1, right: 5, value: -4 }),
+            expect.objectContaining({ operator: '^', left: 5, right: 2, value: 25 }),
+            expect.objectContaining({ operator: '%', left: 5, right: 2, value: 1 })
+        ]));
+
+    } catch (e) {
+        console.error('Test failed:', e);
+        throw e;
     }
-
-// Later, in an async context:
-    await getAst();
-// const document = services.shared.workspace.LangiumDocumentFactory.fromString(fileContent, URI.file(filePath));
-    // await services.shared.workspace.DocumentBuilder.build([document], { validation: true });
-
-    // const module = document.parseResult.value;
-
-    // const result = interpretEvaluations(module);
-    
-    // const output = Object.entries(result).map(([key, value]) => {
-    //     const evaluation = key as any;
-    //     const expr = evaluation.expression;
-
-    //     if (!isBinaryExpression(expr)) throw new Error("Expected a binary expression");
-
-    //     const binary = expr as BinaryExpression;
-    //     const left = (binary.left as NumberLiteral).value;
-    //     const right = (binary.right as NumberLiteral).value;
-    //     const operator = binary.operator;
-
-    //     const line = `${left} ${operator} ${right} = ${value}`;
-    //     console.log(line);
-
-    //     return line;
-    // });
-
-    // expect(output.length).toBe(6);
 });
