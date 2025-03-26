@@ -15,6 +15,6 @@ export default defineConfig({
         deps: {
             interopDefault: true
         },
-        include: ['**/*.test.ts']
+        include: ['**/*ArithParser.test.ts', "**/*ArithParserTertiary.test.ts", "**/*ArithParserMulti.test.ts"]
     }
 });
